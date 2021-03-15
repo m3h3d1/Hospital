@@ -1,10 +1,13 @@
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,8 +26,46 @@ public class Schedule extends javax.swing.JFrame {
      */
     public Schedule() {
         initComponents();
+
+        fillClassJtable(table);
+        table.setRowHeight(40);
+        table.setShowGrid(true);
     }
 
+    public void fillClassJtable(JTable table) {
+
+        Connection con = AllConnection.getConnection();
+        PreparedStatement ps;
+        try {
+            SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd");
+            String strDate = dateForm.format(DateSearch.getDate());
+         if(strDate!=null) {
+//            String strDate = dateForm.format(DateSearch);
+//            System.out.println(strDate);
+            
+            ps = con.prepareStatement("SELECT doctor_info.DoctorID, doctor_info.Name FROM `doctor_info` INNER JOIN Schedule_info ON doctor_info.DoctorID=schedule_info.DoctorID WHERE schedule_info.Date = ?");
+            ps.setString(1, strDate);
+            ResultSet rs = ps.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+            Object[] row;
+            while (rs.next()) {
+
+                row = new Object[2];
+
+                row[0] = rs.getInt(1);
+                row[1] = rs.getString(2);
+                
+                model.addRow(row);
+            }
+          }
+        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(null, "problem happening");
+//            JOptionPane.showMessageDialog(null, ex);
+//            System.out.println(ex);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,10 +83,18 @@ public class Schedule extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtDoctorID = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         btnHome = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        DateSearch = new com.toedter.calendar.JDateChooser();
+        btnSearch = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -53,6 +102,7 @@ public class Schedule extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 470, 143, 47));
 
         RadioButtonYes.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         RadioButtonYes.setText("Yes");
@@ -61,8 +111,10 @@ public class Schedule extends javax.swing.JFrame {
                 RadioButtonYesActionPerformed(evt);
             }
         });
+        getContentPane().add(RadioButtonYes, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 297, 111, -1));
 
         jLabel5.setText("Availability");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(124, 307, 145, 29));
 
         RadioButtonNo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         RadioButtonNo.setText("No");
@@ -71,21 +123,21 @@ public class Schedule extends javax.swing.JFrame {
                 RadioButtonNoActionPerformed(evt);
             }
         });
+        getContentPane().add(RadioButtonNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 297, 119, -1));
+        getContentPane().add(DateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 228, 259, 31));
 
         jLabel6.setText("Date");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(124, 228, 187, 31));
 
         jLabel2.setText("Doctor ID");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(124, 156, 187, 31));
 
         txtDoctorID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDoctorIDActionPerformed(evt);
             }
         });
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Schedule Info");
+        getContentPane().add(txtDoctorID, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 156, 259, 31));
 
         btnHome.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         btnHome.setText("Home");
@@ -94,62 +146,42 @@ public class Schedule extends javax.swing.JFrame {
                 btnHomeActionPerformed(evt);
             }
         });
+        getContentPane().add(btnHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 470, -1, 47));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(303, 303, 303)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(124, 124, 124)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(DateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtDoctorID)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(RadioButtonYes, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnHome)
-                                    .addComponent(RadioButtonNo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(290, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDoctorID, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(RadioButtonYes)
-                    .addComponent(RadioButtonNo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnHome, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(55, 55, 55))
-        );
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel10.setText("Schedule Info");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, -1, -1));
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Doctor ID", "Doctor Name"
+            }
+        ));
+        jScrollPane1.setViewportView(table);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 140, 520, -1));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Available Doctor's List");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 70, 190, 30));
+        getContentPane().add(DateSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 80, 248, 40));
+
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 90, -1, -1));
+
+        jLabel3.setText("Choose a Date:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, 110, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -208,11 +240,11 @@ public class Schedule extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void RadioButtonYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioButtonYesActionPerformed
-        // TODO add your handling code here:
+        RadioButtonNo.setSelected(false);
     }//GEN-LAST:event_RadioButtonYesActionPerformed
 
     private void RadioButtonNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioButtonNoActionPerformed
-        // TODO add your handling code here:
+        RadioButtonYes.setSelected(false);
     }//GEN-LAST:event_RadioButtonNoActionPerformed
 
     private void txtDoctorIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDoctorIDActionPerformed
@@ -225,6 +257,12 @@ public class Schedule extends javax.swing.JFrame {
         dispose();
         form.setResizable(false);
     }//GEN-LAST:event_btnHomeActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        fillClassJtable(table);
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -263,14 +301,20 @@ public class Schedule extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser DateChooser;
+    private com.toedter.calendar.JDateChooser DateSearch;
     private javax.swing.JRadioButton RadioButtonNo;
     private javax.swing.JRadioButton RadioButtonYes;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnHome;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table;
     private javax.swing.JTextField txtDoctorID;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,11 +18,12 @@ public class LoginForm extends javax.swing.JFrame {
         login = new javax.swing.JButton();
         username = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         labelMsg = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtUser.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         txtUser.addActionListener(new java.awt.event.ActionListener() {
@@ -30,8 +31,10 @@ public class LoginForm extends javax.swing.JFrame {
                 txtUserActionPerformed(evt);
             }
         });
+        getContentPane().add(txtUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(414, 218, 317, 58));
 
         txtPass.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        getContentPane().add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(414, 315, 317, 54));
 
         cancel.setFont(new java.awt.Font("Times New Roman", 1, 28)); // NOI18N
         cancel.setText("Cancel");
@@ -41,6 +44,7 @@ public class LoginForm extends javax.swing.JFrame {
                 cancelActionPerformed(evt);
             }
         });
+        getContentPane().add(cancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(531, 400, 162, 54));
 
         login.setFont(new java.awt.Font("Times New Roman", 1, 28)); // NOI18N
         login.setText("Login");
@@ -50,75 +54,25 @@ public class LoginForm extends javax.swing.JFrame {
                 loginActionPerformed(evt);
             }
         });
+        getContentPane().add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 401, 140, 52));
 
         username.setBackground(new java.awt.Color(255, 255, 255));
         username.setFont(new java.awt.Font("Trebuchet MS", 1, 30)); // NOI18N
         username.setText("Username  :");
+        getContentPane().add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 227, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 30)); // NOI18N
         jLabel3.setText("Password    :");
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Hospital Management System");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 326, -1, -1));
 
         labelMsg.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         labelMsg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(labelMsg, new org.netbeans.lib.awtextra.AbsoluteConstraints(315, 508, 316, 50));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(171, 171, 171)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(username)
-                                .addGap(73, 73, 73)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtPass)
-                                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addGap(193, 193, 193)
-                                .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(208, 208, 208)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(192, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(labelMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(292, 292, 292))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(username)
-                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(login, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(54, 54, 54))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(147, 147, 147)))
-                .addComponent(labelMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
-        );
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel11.setText("Hospital Management System");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -183,7 +137,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancel;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel labelMsg;
     private javax.swing.JButton login;

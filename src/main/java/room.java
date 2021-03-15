@@ -1,10 +1,14 @@
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,8 +25,49 @@ public class room extends javax.swing.JFrame {
     /**
      * Creates new form room
      */
+//    DefaultTableModel model;
     public room() {
         initComponents();
+        fillClassJtable(table);
+        table.setRowHeight(40);
+        table.setShowGrid(true);
+    }
+    
+    public void refreshJtable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        fillClassJtable(table);
+    }
+    
+    public void fillClassJtable(JTable table) {
+        Connection con = AllConnection.getConnection();
+        PreparedStatement ps;
+        
+        try {
+            ps = con.prepareStatement("SELECT * FROM `room`");
+            ResultSet rs = ps.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+            Object[] row;
+            while (rs.next()) {
+
+                row = new Object[5];
+
+                row[0] = rs.getInt(1);
+                row[1] = rs.getString(2);
+                row[2] = rs.getInt(3);
+                row[3] = rs.getString(4);
+                row[4] = rs.getString(5);
+
+                model.addRow(row);
+            }
+
+        } 
+        catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "problem happening");
+            JOptionPane.showMessageDialog(null, ex);
+//            System.out.println(ex);
+        }
     }
 
     /**
@@ -43,7 +88,6 @@ public class room extends javax.swing.JFrame {
         buttonGroup7 = new javax.swing.ButtonGroup();
         buttonGroup8 = new javax.swing.ButtonGroup();
         buttonGroup9 = new javax.swing.ButtonGroup();
-        jLabel1 = new javax.swing.JLabel();
         txtRoom = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -57,46 +101,58 @@ public class room extends javax.swing.JFrame {
         RadioButtonNo = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         btnHome = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
+        btnUpdate = new javax.swing.JButton();
+        btnRemove = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Room");
+        setPreferredSize(new java.awt.Dimension(1100, 600));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         txtRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtRoomActionPerformed(evt);
             }
         });
+        getContentPane().add(txtRoom, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 248, 31));
 
         jLabel2.setText("Room No");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 133, 100, 31));
 
         jLabel3.setText("Room Type");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 182, 100, 29));
 
         txtType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTypeActionPerformed(evt);
             }
         });
+        getContentPane().add(txtType, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 180, 248, 29));
 
         txtCost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCostActionPerformed(evt);
             }
         });
+        getContentPane().add(txtCost, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 220, 248, 29));
 
         jLabel4.setText("Cost");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 221, 110, 33));
 
         jLabel6.setText("Date");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 260, 100, 31));
 
-        btnAdd.setText("Add");
+        btnAdd.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnAdd.setText("Add New Data");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 490, 120, 50));
+        getContentPane().add(DateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 248, 31));
 
         RadioButtonYes.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         RadioButtonYes.setText("Yes");
@@ -105,6 +161,7 @@ public class room extends javax.swing.JFrame {
                 RadioButtonYesActionPerformed(evt);
             }
         });
+        getContentPane().add(RadioButtonYes, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 111, -1));
 
         RadioButtonNo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         RadioButtonNo.setText("No");
@@ -113,85 +170,58 @@ public class room extends javax.swing.JFrame {
                 RadioButtonNoActionPerformed(evt);
             }
         });
+        getContentPane().add(RadioButtonNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 340, 119, -1));
 
         jLabel5.setText("Availability");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 110, 29));
 
-        btnHome.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        btnHome.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnHome.setText("Home");
         btnHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHomeActionPerformed(evt);
             }
         });
+        getContentPane().add(btnHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, -1, 47));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(RadioButtonYes, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(RadioButtonNo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtType, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCost, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(327, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(321, 321, 321))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnHome)
-                        .addGap(99, 99, 99)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtType, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCost, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(DateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 25, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(RadioButtonYes)
-                    .addComponent(RadioButtonNo)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(79, 79, 79)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnHome, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
-        );
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel10.setText("Room");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, -1, -1));
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Room No", "Type", "Cost", "Date", "Availability"
+            }
+        ));
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 100, -1, -1));
+
+        btnUpdate.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnUpdate.setText("Update Existing Data");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 490, 160, 50));
+
+        btnRemove.setText("Remove Selected Data");
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 490, 160, 50));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -250,7 +280,7 @@ public class room extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, ex);
                 }
             }
-
+            refreshJtable();
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null, "Error in save");
@@ -258,11 +288,11 @@ public class room extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void RadioButtonYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioButtonYesActionPerformed
-        // TODO add your handling code here:
+        RadioButtonNo.setSelected(false);
     }//GEN-LAST:event_RadioButtonYesActionPerformed
 
     private void RadioButtonNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RadioButtonNoActionPerformed
-        // TODO add your handling code here:
+        RadioButtonYes.setSelected(false);
     }//GEN-LAST:event_RadioButtonNoActionPerformed
 
     private void txtCostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostActionPerformed
@@ -279,6 +309,101 @@ public class room extends javax.swing.JFrame {
         dispose();
         form.setResizable(false);
     }//GEN-LAST:event_btnHomeActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int rowIndex = table.getSelectedRow();
+        RadioButtonYes.setSelected(false);
+        RadioButtonNo.setSelected(false);
+        if (model.getValueAt(rowIndex, 4).toString().equals("YES")) {
+            RadioButtonYes.setSelected(true);
+        } else {
+            RadioButtonNo.setSelected(true);
+        }
+        txtRoom.setText(model.getValueAt(rowIndex, 0).toString());
+        txtType.setText(model.getValueAt(rowIndex, 1).toString());
+        txtCost.setText(model.getValueAt(rowIndex, 2).toString());
+        Date bdate;
+        try {
+            bdate = new SimpleDateFormat("yyyy-MM-dd").parse(model.getValueAt(rowIndex, 3).toString());
+            DateChooser.setDate(bdate);
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }//GEN-LAST:event_tableMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        try {
+            int RoomID = Integer.valueOf(txtRoom.getText());
+            String RoomType = txtType.getText();
+            int Cost = Integer.valueOf(txtCost.getText());
+            String Available = "YES";
+            if (RadioButtonNo.isSelected()) {
+                Available = "NO";
+            }
+            
+            SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd");
+            String Date = dateForm.format(DateChooser.getDate());
+
+            if(verifyText()) {
+                Connection con = AllConnection.getConnection();
+                try {
+                    PreparedStatement ps = con.prepareStatement("UPDATE `room` SET `Type`=?,`Cost`=?,`Date`=?,`Availability`=? WHERE `RoomNo`=?");
+                        
+                    ps.setInt(5, RoomID);
+                    ps.setString(1, RoomType);
+                    ps.setInt(2, Cost);
+                    ps.setString(3, Date);
+                    ps.setString(4, Available);
+
+                    if (ps.executeUpdate() > 0) {
+                        JOptionPane.showMessageDialog(null, "data updated");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "data didn't update");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex);
+                }
+            }
+            
+            
+            refreshJtable();
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Error in Update");
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        if (txtRoom.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "No data selected");
+        } else {
+            int room = Integer.parseInt(txtRoom.getText());
+            int x = JOptionPane.showConfirmDialog(null, "Selected data will be deleted", "Delete informantion", JOptionPane.OK_CANCEL_OPTION, 0);
+            if (x == JOptionPane.OK_OPTION) {
+                try {
+                    Connection con = AllConnection.getConnection();
+                    PreparedStatement ps = con.prepareStatement("DELETE FROM `room` WHERE RoomNo = ?");
+                    ps.setInt(1, room);
+
+                    if (ps.executeUpdate() > 0) {
+                        JOptionPane.showMessageDialog(null, "student information deleted");
+                        txtRoom.setText("");
+                        txtType.setText("");
+                        txtCost.setText("");
+                        DateChooser.setDate(null);
+                        RadioButtonYes.setSelected(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "student information not deleted");
+                    }
+
+                    refreshJtable();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnRemoveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -321,6 +446,8 @@ public class room extends javax.swing.JFrame {
     private javax.swing.JRadioButton RadioButtonYes;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnHome;
+    private javax.swing.JButton btnRemove;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -330,12 +457,14 @@ public class room extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup7;
     private javax.swing.ButtonGroup buttonGroup8;
     private javax.swing.ButtonGroup buttonGroup9;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table;
     private javax.swing.JTextField txtCost;
     private javax.swing.JTextField txtRoom;
     private javax.swing.JTextField txtType;

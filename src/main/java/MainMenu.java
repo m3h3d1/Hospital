@@ -18,16 +18,16 @@ public class MainMenu extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnStudent = new javax.swing.JButton();
-        btnResult = new javax.swing.JButton();
+        btnPatient = new javax.swing.JButton();
+        btnPayment = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         welcome = new javax.swing.JLabel();
-        btnAttendance = new javax.swing.JButton();
-        btnTeacher1 = new javax.swing.JButton();
-        btnTeacher2 = new javax.swing.JButton();
-        btnTeacher3 = new javax.swing.JButton();
-        btnTeacher4 = new javax.swing.JButton();
-        btnTeacher5 = new javax.swing.JButton();
+        btnSchedule = new javax.swing.JButton();
+        btnPatientHistory = new javax.swing.JButton();
+        btnRoom = new javax.swing.JButton();
+        btnDoctor = new javax.swing.JButton();
+        btnDept = new javax.swing.JButton();
+        btnAdmission = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         jMenuItem1.setText("jMenuItem1");
@@ -65,23 +65,23 @@ public class MainMenu extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 710, 150));
 
-        btnStudent.setFont(new java.awt.Font("Tahoma", 0, 27)); // NOI18N
-        btnStudent.setText("Patient Information");
-        btnStudent.addActionListener(new java.awt.event.ActionListener() {
+        btnPatient.setFont(new java.awt.Font("Tahoma", 0, 27)); // NOI18N
+        btnPatient.setText("Patient Information");
+        btnPatient.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStudentActionPerformed(evt);
+                btnPatientActionPerformed(evt);
             }
         });
-        jPanel1.add(btnStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 340, 120));
+        jPanel1.add(btnPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 340, 120));
 
-        btnResult.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
-        btnResult.setText("Payment");
-        btnResult.addActionListener(new java.awt.event.ActionListener() {
+        btnPayment.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
+        btnPayment.setText("Payment");
+        btnPayment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResultActionPerformed(evt);
+                btnPaymentActionPerformed(evt);
             }
         });
-        jPanel1.add(btnResult, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 410, 340, 110));
+        jPanel1.add(btnPayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 410, 340, 110));
 
         welcome.setBackground(new java.awt.Color(255, 255, 255));
         welcome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -106,59 +106,59 @@ public class MainMenu extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 51, 330, -1));
 
-        btnAttendance.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
-        btnAttendance.setText("Schedule");
-        btnAttendance.addActionListener(new java.awt.event.ActionListener() {
+        btnSchedule.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
+        btnSchedule.setText("Schedule");
+        btnSchedule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAttendanceActionPerformed(evt);
+                btnScheduleActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 260, 340, 120));
+        jPanel1.add(btnSchedule, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 260, 340, 120));
 
-        btnTeacher1.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
-        btnTeacher1.setText("Patient History");
-        btnTeacher1.addActionListener(new java.awt.event.ActionListener() {
+        btnPatientHistory.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
+        btnPatientHistory.setText("Patient History");
+        btnPatientHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTeacher1ActionPerformed(evt);
+                btnPatientHistoryActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTeacher1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 340, 110));
+        jPanel1.add(btnPatientHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 340, 110));
 
-        btnTeacher2.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
-        btnTeacher2.setText("Room Information");
-        btnTeacher2.addActionListener(new java.awt.event.ActionListener() {
+        btnRoom.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
+        btnRoom.setText("Room Information");
+        btnRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTeacher2ActionPerformed(evt);
+                btnRoomActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTeacher2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 340, 110));
+        jPanel1.add(btnRoom, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 340, 110));
 
-        btnTeacher3.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
-        btnTeacher3.setText("Doctor Information");
-        btnTeacher3.addActionListener(new java.awt.event.ActionListener() {
+        btnDoctor.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
+        btnDoctor.setText("Doctor Information");
+        btnDoctor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTeacher3ActionPerformed(evt);
+                btnDoctorActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTeacher3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 340, 110));
+        jPanel1.add(btnDoctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 340, 110));
 
-        btnTeacher4.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
-        btnTeacher4.setText("Department");
-        btnTeacher4.addActionListener(new java.awt.event.ActionListener() {
+        btnDept.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
+        btnDept.setText("Department");
+        btnDept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTeacher4ActionPerformed(evt);
+                btnDeptActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTeacher4, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 430, 340, 110));
+        jPanel1.add(btnDept, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 430, 340, 110));
 
-        btnTeacher5.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
-        btnTeacher5.setText("Patient Admission");
-        btnTeacher5.addActionListener(new java.awt.event.ActionListener() {
+        btnAdmission.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
+        btnAdmission.setText("Patient Admission");
+        btnAdmission.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTeacher5ActionPerformed(evt);
+                btnAdmissionActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTeacher5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 570, 340, 110));
+        jPanel1.add(btnAdmission, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 570, 340, 110));
 
         jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         setJMenuBar(jMenuBar1);
@@ -174,30 +174,30 @@ public class MainMenu extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResultActionPerformed
+    private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
         Payment form = new Payment();
         form.setVisible(true);
         dispose();
         form.setResizable(false);
-    }//GEN-LAST:event_btnResultActionPerformed
+    }//GEN-LAST:event_btnPaymentActionPerformed
 
-    private void btnStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentActionPerformed
+    private void btnPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPatientActionPerformed
 
         Patient form = new Patient();
         form.setVisible(true);
         form.setResizable(false);
         dispose();
 
-    }//GEN-LAST:event_btnStudentActionPerformed
+    }//GEN-LAST:event_btnPatientActionPerformed
 
-    private void btnAttendanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAttendanceActionPerformed
+    private void btnScheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScheduleActionPerformed
 
         Schedule form = new Schedule();
         form.setVisible(true);
@@ -205,42 +205,42 @@ public class MainMenu extends javax.swing.JFrame {
         form.setResizable(false);
 
 
-    }//GEN-LAST:event_btnAttendanceActionPerformed
+    }//GEN-LAST:event_btnScheduleActionPerformed
 
-    private void btnTeacher1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTeacher1ActionPerformed
+    private void btnPatientHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPatientHistoryActionPerformed
         PatientHistory form = new PatientHistory();
         form.setVisible(true);
         dispose();
         form.setResizable(false);
-    }//GEN-LAST:event_btnTeacher1ActionPerformed
+    }//GEN-LAST:event_btnPatientHistoryActionPerformed
 
-    private void btnTeacher2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTeacher2ActionPerformed
+    private void btnRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoomActionPerformed
         room form = new room();
         form.setVisible(true);
         dispose();
         form.setResizable(false);
-    }//GEN-LAST:event_btnTeacher2ActionPerformed
+    }//GEN-LAST:event_btnRoomActionPerformed
 
-    private void btnTeacher3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTeacher3ActionPerformed
+    private void btnDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoctorActionPerformed
         Doctor form = new Doctor();
         form.setVisible(true);
         dispose();
         form.setResizable(false);
-    }//GEN-LAST:event_btnTeacher3ActionPerformed
+    }//GEN-LAST:event_btnDoctorActionPerformed
 
-    private void btnTeacher4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTeacher4ActionPerformed
-        AddDepartment form = new AddDepartment();
+    private void btnDeptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeptActionPerformed
+        Department form = new Department();
         form.setVisible(true);
         dispose();
         form.setResizable(false);
-    }//GEN-LAST:event_btnTeacher4ActionPerformed
+    }//GEN-LAST:event_btnDeptActionPerformed
 
-    private void btnTeacher5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTeacher5ActionPerformed
+    private void btnAdmissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdmissionActionPerformed
         Admission form = new Admission();
         form.setVisible(true);
         dispose();
         form.setResizable(false);
-    }//GEN-LAST:event_btnTeacher5ActionPerformed
+    }//GEN-LAST:event_btnAdmissionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -279,14 +279,14 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAttendance;
-    private javax.swing.JButton btnResult;
-    private javax.swing.JButton btnStudent;
-    private javax.swing.JButton btnTeacher1;
-    private javax.swing.JButton btnTeacher2;
-    private javax.swing.JButton btnTeacher3;
-    private javax.swing.JButton btnTeacher4;
-    private javax.swing.JButton btnTeacher5;
+    private javax.swing.JButton btnAdmission;
+    private javax.swing.JButton btnDept;
+    private javax.swing.JButton btnDoctor;
+    private javax.swing.JButton btnPatient;
+    private javax.swing.JButton btnPatientHistory;
+    private javax.swing.JButton btnPayment;
+    private javax.swing.JButton btnRoom;
+    private javax.swing.JButton btnSchedule;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
