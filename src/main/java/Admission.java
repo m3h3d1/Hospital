@@ -65,8 +65,6 @@ public class Admission extends javax.swing.JFrame {
             SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd");
             String strDate = dateForm.format(DateSearch.getDate());
             if(strDate!=null) {
-    //            String strDate = dateForm.format(DateSearch);
-    //            System.out.println(strDate);
 
                 PreparedStatement ps = con.prepareStatement("SELECT patient_info.PatientID, patient_info.Name FROM `admission` INNER JOIN patient_info ON admission.PatientID=patient_info.PatientID WHERE admission.Date = ?");
                 ps.setString(1, strDate);

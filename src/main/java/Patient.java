@@ -384,10 +384,6 @@ public class Patient extends javax.swing.JFrame {
     }
     
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-//        AddPatient form = new AddPatient();
-//        form.setVisible(true);
-//        dispose();
-//        form.setResizable(false);
         try {
             int ID = Integer.valueOf(txtID.getText());
             String Name = txtName.getText();
@@ -548,7 +544,6 @@ public class Patient extends javax.swing.JFrame {
             }
         Connection con = AllConnection.getConnection();
         try {
-//            PreparedStatement ps = con.prepareStatement("SELECT * FROM `patient_info` WHERE CONCAT(\"PatientID\", \"Name\", \"DoB\", \"BloodGroup\", \"Address\", \"ContactNo\", \"EmContact\", \"Email\") LIKE ?");
             PreparedStatement ps = con.prepareStatement("SELECT * FROM `patient_info` WHERE PatientID= ?");
             int valueToSearch = Integer.valueOf(txtSearch.getText());
             ps.setInt(1, valueToSearch);

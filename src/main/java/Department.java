@@ -81,28 +81,15 @@ public class Department extends javax.swing.JFrame {
     public void fillList(JList List, int rowIndex, int deptID) {
         Connection con = AllConnection.getConnection();
         try {
-//            PreparedStatement ps = con.prepareStatement("SELECT * FROM `department`");
             PreparedStatement ps = con.prepareStatement("SELECT Name FROM doctor_info WHERE DeptID = ?");
             ps.setInt(1, deptID);
             
             ResultSet rs = ps.executeQuery();
             
-//            DefaultTableModel model = (DefaultTableModel) table.getModel();
             DefaultListModel model = (DefaultListModel) List.getModel();
-//            DefaultListModel<String> listModel = new DefaultListModel<>();
-//            javax.swing.JList<String> List
 
             Object[] row;
             while (rs.next()) {
-
-//                row = new Object[5];
-//
-//                row[0] = rs.getInt(1);
-//                row[1] = rs.getString(2);
-//                row[2] = rs.getString(3);
-//                row[3] = rs.getString(4);
-//                row[4] = rs.getInt(5);
-
                 model.addElement(rs.getString(1));
             }
 
