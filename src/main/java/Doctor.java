@@ -43,10 +43,11 @@ public class Doctor extends javax.swing.JFrame {
     public void fillClassJtable(JTable table) {
 
         Connection con = AllConnection.getConnection();
-        PreparedStatement ps;
         try {
-            ps = con.prepareStatement("SELECT * FROM `doctor_info`");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM `doctor_info`");
             ResultSet rs = ps.executeQuery();
+            
+            
             DefaultTableModel model = (DefaultTableModel) table.getModel();
 
             Object[] row;
@@ -61,7 +62,13 @@ public class Doctor extends javax.swing.JFrame {
                 row[4] = rs.getInt(5);
                 row[5] = rs.getDouble(6);
                 row[6] = rs.getInt(7);
-
+                
+                PreparedStatement ps2 = con.prepareStatement("SELECT count(PatientID) FROM `admission` WHERE DoctorID = " + rs.getInt(1));
+                ResultSet rs2 = ps2.executeQuery();
+                while(rs2.next()) {
+                    row[7] = rs2.getInt(1);
+                }
+                
                 model.addRow(row);
 
             }
@@ -135,7 +142,7 @@ public class Doctor extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Doctor ID", "Name", "Dept ID", "Designation ", "Salary", "Working Hour", "Visiting Fee"
+                "Doctor ID", "Name", "Dept ID", "Designation ", "Salary", "Working Hour", "Visiting Fee", "# of Patients"
             }
         ));
         table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -144,9 +151,6 @@ public class Doctor extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(table);
-        if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(6).setResizable(false);
-        }
 
         jPanel5.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 890, 460));
 
