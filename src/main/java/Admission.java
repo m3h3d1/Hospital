@@ -3,6 +3,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -56,6 +59,49 @@ public class Admission extends javax.swing.JFrame {
         }
     }      
     
+    public void fillTable2(JTable table) {
+        Connection con = AllConnection.getConnection();
+        try {
+            SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd");
+            String strDate = dateForm.format(DateSearch.getDate());
+            if(strDate!=null) {
+    //            String strDate = dateForm.format(DateSearch);
+    //            System.out.println(strDate);
+
+                PreparedStatement ps = con.prepareStatement("SELECT patient_info.PatientID, patient_info.Name FROM `admission` INNER JOIN patient_info ON admission.PatientID=patient_info.PatientID WHERE admission.Date = ?");
+                ps.setString(1, strDate);
+                ResultSet rs = ps.executeQuery();
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+                Object[] row;
+                while (rs.next()) {
+
+                    row = new Object[2];
+
+                    row[0] = rs.getInt(1);
+                    row[1] = rs.getString(2);
+
+                    model.addRow(row);
+                }
+                
+                // Count Patient in a particular date
+                PreparedStatement ps2 = con.prepareStatement("SELECT count(patient_info.PatientID) FROM `admission` INNER JOIN patient_info ON admission.PatientID=patient_info.PatientID WHERE admission.Date = ?");
+                ps2.setString(1, strDate);
+                ResultSet rs2 = ps2.executeQuery();
+                
+                int total = 0;
+                while (rs2.next()) {
+                    total = rs2.getInt(1);
+                }
+                TotalPatient.setText("Total: " + Integer.toString(total));
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "problem happening");
+            JOptionPane.showMessageDialog(null, ex);
+            System.out.println(ex);
+        }
+    } 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -78,7 +124,16 @@ public class Admission extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtDoctorID = new javax.swing.JTextField();
+        DateChooser = new com.toedter.calendar.JDateChooser();
+        jLabel8 = new javax.swing.JLabel();
+        DateSearch = new com.toedter.calendar.JDateChooser();
+        SearchPatient = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table2 = new javax.swing.JTable();
+        TotalPatient = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -129,7 +184,7 @@ public class Admission extends javax.swing.JFrame {
                 btnAddActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 340, 153, 47));
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 420, 153, 47));
 
         btnHome.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         btnHome.setText("Back");
@@ -138,7 +193,7 @@ public class Admission extends javax.swing.JFrame {
                 btnHomeActionPerformed(evt);
             }
         });
-        getContentPane().add(btnHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 520, -1, 47));
+        getContentPane().add(btnHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, -1, 47));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(51, 51, 255));
@@ -155,13 +210,45 @@ public class Admission extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 150, 550, 450));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, 550, 250));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 0, 0));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Available Room List");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 100, 200, 30));
+        jLabel5.setText("Doctor ID");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, 90, 30));
+
+        jLabel7.setText("Date");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 90, 30));
+        getContentPane().add(txtDoctorID, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 310, 250, 30));
+        getContentPane().add(DateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 350, 248, 30));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Available Room List");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 90, 200, 20));
+        getContentPane().add(DateSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 400, 248, 30));
+
+        SearchPatient.setText("Patient Admitted");
+        SearchPatient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchPatientActionPerformed(evt);
+            }
+        });
+        getContentPane().add(SearchPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 400, 120, 30));
+
+        table2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Patient ID", "Patient Name"
+            }
+        ));
+        jScrollPane2.setViewportView(table2);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(492, 437, 550, 210));
+
+        TotalPatient.setText("Total: ");
+        getContentPane().add(TotalPatient, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 400, 70, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -192,22 +279,49 @@ public class Admission extends javax.swing.JFrame {
         }
     }
     
+    public boolean isDoctorAvailable(int DoctorID) {
+        Connection con = AllConnection.getConnection();
+        
+        String s = "YES";
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT Availability FROM schedule_info WHERE DoctorID=?");
+            ps.setInt(1, DoctorID);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                s = rs.getString(1);
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        
+        if(s=="NO") return false;
+        return true;
+    }
+    
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
             int ID = Integer.valueOf(txtAdmissionID.getText());
             int PatientID = Integer.valueOf(txtPatientID.getText());
             int RoomNo = Integer.valueOf(txtRoomNo.getText());
             int Duration = Integer.valueOf(txtDuration.getText());
-            if(verifyText()) {
+            int DoctorID = Integer.valueOf(txtDoctorID.getText());
+            
+            SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd");
+            String Date = dateForm.format(DateChooser.getDate());
+            if(verifyText() && isDoctorAvailable(DoctorID)) {
                 Connection con = AllConnection.getConnection();
                 try {
-                    PreparedStatement ps = con.prepareStatement("INSERT INTO `admission`(`AdmissionID`, `PatientID`, `RoomNo`, `Duration`) "
-                        + "VALUES (?,?,?,?)");
+                    PreparedStatement ps = con.prepareStatement("INSERT INTO `admission`(`AdmissionID`, `PatientID`, `RoomNo`, `Duration`, DoctorID, Date) "
+                        + "VALUES (?,?,?,?,?,?)");
 
                     ps.setInt(1, ID);
                     ps.setInt(2, PatientID);
                     ps.setInt(3, RoomNo);
                     ps.setInt(4, Duration);
+                    ps.setInt(5, DoctorID);
+                    ps.setString(6, Date);
 
                     if (ps.executeUpdate() > 0) {
                         JOptionPane.showMessageDialog(null, "New Patient Has Admitted");
@@ -231,6 +345,12 @@ public class Admission extends javax.swing.JFrame {
         dispose();
         form.setResizable(false);
     }//GEN-LAST:event_btnHomeActionPerformed
+
+    private void SearchPatientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchPatientActionPerformed
+        DefaultTableModel model = (DefaultTableModel) table2.getModel();
+        model.setRowCount(0);
+        fillTable2(table2);
+    }//GEN-LAST:event_SearchPatientActionPerformed
 
     /**
      * @param args the command line arguments
@@ -268,17 +388,26 @@ public class Admission extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser DateChooser;
+    private com.toedter.calendar.JDateChooser DateSearch;
+    private javax.swing.JButton SearchPatient;
+    private javax.swing.JLabel TotalPatient;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnHome;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable table;
+    private javax.swing.JTable table2;
     private javax.swing.JTextField txtAdmissionID;
+    private javax.swing.JTextField txtDoctorID;
     private javax.swing.JTextField txtDuration;
     private javax.swing.JTextField txtPatientID;
     private javax.swing.JTextField txtRoomNo;

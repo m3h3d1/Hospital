@@ -113,7 +113,7 @@ public class MainMenu extends javax.swing.JFrame {
                 btnScheduleActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSchedule, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 260, 340, 120));
+        jPanel1.add(btnSchedule, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 560, 340, 120));
 
         btnPatientHistory.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
         btnPatientHistory.setText("Patient History");
@@ -122,7 +122,7 @@ public class MainMenu extends javax.swing.JFrame {
                 btnPatientHistoryActionPerformed(evt);
             }
         });
-        jPanel1.add(btnPatientHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 340, 110));
+        jPanel1.add(btnPatientHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 280, 340, 110));
 
         btnRoom.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
         btnRoom.setText("Room Information");
@@ -149,7 +149,7 @@ public class MainMenu extends javax.swing.JFrame {
                 btnDeptActionPerformed(evt);
             }
         });
-        jPanel1.add(btnDept, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 430, 340, 110));
+        jPanel1.add(btnDept, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 280, 340, 110));
 
         btnAdmission.setFont(new java.awt.Font("Tahoma", 0, 26)); // NOI18N
         btnAdmission.setText("Patient Admission");
@@ -158,7 +158,7 @@ public class MainMenu extends javax.swing.JFrame {
                 btnAdmissionActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAdmission, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 570, 340, 110));
+        jPanel1.add(btnAdmission, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 420, 340, 110));
 
         jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         setJMenuBar(jMenuBar1);

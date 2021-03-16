@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 08, 2021 at 07:29 PM
+-- Generation Time: Mar 16, 2021 at 06:11 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -43,7 +43,6 @@ CREATE TABLE IF NOT EXISTS `admission` (
 --
 
 INSERT INTO `admission` (`AdmissionID`, `PatientID`, `RoomNo`, `Duration`) VALUES
-(1, 343, 101, 4),
 (2, 9, 103, 2),
 (3, 9, 103, 3);
 
@@ -70,7 +69,8 @@ INSERT INTO `department` (`DeptID`, `Name`, `Head`, `Contact`) VALUES
 (1, 'Psychology', 'MR. Karim', '1922764836'),
 (2, 'Dental', 'Abdul Mutaleb Hossain', '01937467896'),
 (3, 'Physiology', 'Dr. Md. Zabbar', '01987657897'),
-(5, 'Cardiology', 'Dr. Md. Rafiq', '0189776543');
+(5, 'Cardiology', 'Dr. Md. Rafiq', '0189776543'),
+(6, 'surgery', 'Dr. Saikat', '01937898766');
 
 -- --------------------------------------------------------
 
@@ -99,8 +99,7 @@ INSERT INTO `doctor_info` (`DoctorID`, `Name`, `DeptID`, `Designation`, `Salary`
 (3, 'Dr. Kamal', 1, 'Dentist', 30000, 3, 200),
 (5, 'Dr. Rafique', 1, 'Dentist', 40000, 4, 100),
 (7, 'Dr. Salam', 1, 'Dentist', 50000, 5, 300),
-(9, 'Dr. Sabbir', 5, 'Cardiologist', 55000, 3, 200),
-(43, 'dfg', 1, 'dfg', 434, 234, 234);
+(9, 'Dr. Sabbir', 5, 'Cardiologist', 55000, 3, 250);
 
 -- --------------------------------------------------------
 
@@ -125,8 +124,7 @@ CREATE TABLE IF NOT EXISTS `patient_history` (
 --
 
 INSERT INTO `patient_history` (`PatientID`, `DoctorID`, `Date`, `Diagnosis`, `Medicine`) VALUES
-(9, 9, '2021-03-06', 'Xray', 'Ace'),
-(343, 43, '2021-03-08', 'XRay', 'Napa');
+(9, 9, '2021-03-06', 'Xray', 'Ace');
 
 -- --------------------------------------------------------
 
@@ -138,7 +136,7 @@ DROP TABLE IF EXISTS `patient_info`;
 CREATE TABLE IF NOT EXISTS `patient_info` (
   `PatientID` int(11) NOT NULL,
   `Name` varchar(30) NOT NULL,
-  `DoB` date NOT NULL COMMENT 'Date of Birth (dd-mm-yyyy)',
+  `DoB` date NOT NULL COMMENT 'Date of Birth (yyyy-mm-dd)',
   `BloodGroup` varchar(10) NOT NULL,
   `Address` varchar(40) NOT NULL,
   `ContactNo` varchar(11) NOT NULL,
@@ -159,8 +157,7 @@ INSERT INTO `patient_info` (`PatientID`, `Name`, `DoB`, `BloodGroup`, `Address`,
 (6, 'Rishan', '2007-03-08', 'B+', 'Jamalpur', '01987678987', '01978766544', 'rishan@gmail.com'),
 (7, 'Sabuj', '2015-03-05', 'A+', 'Narail', '01987655689', '08766554467', 'sabuj@gmail.com'),
 (8, 'Shafiq', '2012-03-14', 'O+', 'Barishal', '01849789765', '01898767654', 'shafiq@yahoo.com'),
-(9, 'Jishan', '2005-03-15', 'A+', 'Sylhet', '01786567876', '01897656785', 'jishan@gmail.com'),
-(343, 'sedrg', '2021-03-03', 'drgs', 'sdr', 'gdrgf', 'dfg', 'sdrf');
+(9, 'Jishan', '2005-03-15', 'O+', 'Sylhet', '01786567876', '01897656785', 'jishan@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -181,15 +178,6 @@ CREATE TABLE IF NOT EXISTS `payment` (
   KEY `Payment_AdmissionID` (`AdmissionID`),
   KEY `Payment_PatientID` (`PatientID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `payment`
---
-
-INSERT INTO `payment` (`PaymentID`, `Date`, `AdmissionID`, `PatientID`, `Total`, `Paid`, `Due`) VALUES
-(1, '2021-03-08', 1, 343, 1000, 700, 300),
-(3, '2021-03-09', 1, 1, 900, 900, 0),
-(8, '2021-03-09', 1, 1, 900, 800, 100);
 
 -- --------------------------------------------------------
 
@@ -214,7 +202,8 @@ CREATE TABLE IF NOT EXISTS `room` (
 INSERT INTO `room` (`RoomNo`, `Type`, `Cost`, `Date`, `Availability`) VALUES
 (101, 'General', 300, '2021-03-08', 'YES'),
 (102, 'Emergency', 3000, '2021-03-09', 'YES'),
-(103, 'General', 300, '2021-03-09', 'YES');
+(103, 'General', 300, '2021-03-09', 'YES'),
+(104, 'General', 300, '2021-03-09', 'NO');
 
 -- --------------------------------------------------------
 
@@ -235,7 +224,6 @@ CREATE TABLE IF NOT EXISTS `schedule_info` (
 --
 
 INSERT INTO `schedule_info` (`DoctorID`, `Date`, `Availability`) VALUES
-(43, '2021-03-08', 'YES'),
 (3, '2021-03-11', 'YES'),
 (9, '2021-03-10', 'YES');
 

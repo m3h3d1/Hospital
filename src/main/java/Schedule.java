@@ -33,32 +33,30 @@ public class Schedule extends javax.swing.JFrame {
     }
 
     public void fillClassJtable(JTable table) {
-
         Connection con = AllConnection.getConnection();
-        PreparedStatement ps;
         try {
             SimpleDateFormat dateForm = new SimpleDateFormat("yyyy-MM-dd");
             String strDate = dateForm.format(DateSearch.getDate());
-         if(strDate!=null) {
-//            String strDate = dateForm.format(DateSearch);
-//            System.out.println(strDate);
-            
-            ps = con.prepareStatement("SELECT doctor_info.DoctorID, doctor_info.Name FROM `doctor_info` INNER JOIN Schedule_info ON doctor_info.DoctorID=schedule_info.DoctorID WHERE schedule_info.Date = ?");
-            ps.setString(1, strDate);
-            ResultSet rs = ps.executeQuery();
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            if(strDate!=null) {
+    //            String strDate = dateForm.format(DateSearch);
+    //            System.out.println(strDate);
 
-            Object[] row;
-            while (rs.next()) {
+                PreparedStatement ps = con.prepareStatement("SELECT doctor_info.DoctorID, doctor_info.Name FROM `doctor_info` INNER JOIN Schedule_info ON doctor_info.DoctorID=schedule_info.DoctorID WHERE schedule_info.Date = ? and Availability='YES'");
+                ps.setString(1, strDate);
+                ResultSet rs = ps.executeQuery();
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-                row = new Object[2];
+                Object[] row;
+                while (rs.next()) {
 
-                row[0] = rs.getInt(1);
-                row[1] = rs.getString(2);
-                
-                model.addRow(row);
+                    row = new Object[2];
+
+                    row[0] = rs.getInt(1);
+                    row[1] = rs.getString(2);
+
+                    model.addRow(row);
+                }
             }
-          }
         } catch (Exception ex) {
 //            JOptionPane.showMessageDialog(null, "problem happening");
 //            JOptionPane.showMessageDialog(null, ex);

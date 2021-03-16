@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +31,13 @@ public class Department extends javax.swing.JFrame {
         model.setRowCount(0);
         fillClassJtable(table);
     }
+    public void clearList() {
+//        DefaultListModel model = (DefaultListModel) List.getModel();
+//        List.removeAllElements();
+        DefaultListModel  model = new DefaultListModel();
+        List.setModel(model);
+
+    }
     
     public void clearFields() {
         txtID.setText("");
@@ -42,21 +51,59 @@ public class Department extends javax.swing.JFrame {
     public void fillClassJtable(JTable table) {
         Connection con = AllConnection.getConnection();
         try {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM `department`");
+//            PreparedStatement ps = con.prepareStatement("SELECT * FROM `department`");
+            PreparedStatement ps = con.prepareStatement("SELECT department.DeptID, department.Name, department.Head, department.Contact, COUNT(doctor_info.DeptID) FROM `department` "
+                    + "LEFT JOIN doctor_info ON department.DeptID=doctor_info.DeptID group by department.DeptID");
             ResultSet rs = ps.executeQuery();
+            
             DefaultTableModel model = (DefaultTableModel) table.getModel();
 
             Object[] row;
             while (rs.next()) {
 
-                row = new Object[4];
+                row = new Object[5];
 
                 row[0] = rs.getInt(1);
                 row[1] = rs.getString(2);
                 row[2] = rs.getString(3);
                 row[3] = rs.getString(4);
+                row[4] = rs.getInt(5);
 
                 model.addRow(row);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "problem happening");
+            JOptionPane.showMessageDialog(null, ex);
+            System.out.println(ex);
+        }
+    }    
+    public void fillList(JList List, int rowIndex, int deptID) {
+        Connection con = AllConnection.getConnection();
+        try {
+//            PreparedStatement ps = con.prepareStatement("SELECT * FROM `department`");
+            PreparedStatement ps = con.prepareStatement("SELECT Name FROM doctor_info WHERE DeptID = ?");
+            ps.setInt(1, deptID);
+            
+            ResultSet rs = ps.executeQuery();
+            
+//            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            DefaultListModel model = (DefaultListModel) List.getModel();
+//            DefaultListModel<String> listModel = new DefaultListModel<>();
+//            javax.swing.JList<String> List
+
+            Object[] row;
+            while (rs.next()) {
+
+//                row = new Object[5];
+//
+//                row[0] = rs.getInt(1);
+//                row[1] = rs.getString(2);
+//                row[2] = rs.getString(3);
+//                row[3] = rs.getString(4);
+//                row[4] = rs.getInt(5);
+
+                model.addElement(rs.getString(1));
             }
 
         } catch (SQLException ex) {
@@ -94,6 +141,9 @@ public class Department extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
         btnMenu = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        List = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,7 +171,7 @@ public class Department extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Dept ID", "Name", "Head", "Contact"
+                "Dept ID", "Name", "Head", "Contact", "# of Doctors"
             }
         ));
         table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -131,7 +181,7 @@ public class Department extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 150, 760, 450));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 600, 430));
 
         txtID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,6 +264,16 @@ public class Department extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, -1, 50));
+
+        List.setModel(new DefaultListModel());
+        jScrollPane3.setViewportView(List);
+
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 170, 150, 400));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Doctor names by Dept");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 140, 140, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -301,6 +361,12 @@ public class Department extends javax.swing.JFrame {
             txtContact.setText(model.getValueAt(rowIndex, 3).toString());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
+        }
+        try {
+            clearList();
+            fillList(List, rowIndex, Integer.valueOf(model.getValueAt(rowIndex, 0).toString()));
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
     }//GEN-LAST:event_tableMouseClicked
 
@@ -416,11 +482,13 @@ public class Department extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> List;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClearAllFields;
     private javax.swing.JButton btnMenu;
     private javax.swing.JButton btnRemove;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -430,6 +498,7 @@ public class Department extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable table;
     private javax.swing.JTextField txtContact;
     private javax.swing.JTextField txtHead;
